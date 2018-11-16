@@ -88,13 +88,13 @@ impl Authenticator {
         };
         
         
-        println("GOt id");
+        println!("GOt id");
         let id = match doc.get("conversationId") {
             Some(bson) => bson.clone(),
             None => return Err(ResponseError(String::from("No conversationId returned"))),
         };
         
-        println("Getting response");
+        println!("Getting response");
         let response = match String::from_utf8(data) {
             Ok(string) => string,
             Err(_) => {
