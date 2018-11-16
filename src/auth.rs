@@ -228,6 +228,7 @@ impl Authenticator {
         let mut doc = auth_data.response;
 
         loop {
+            println!("Trying to verify");
             // Verify server signature
             if let Some(&Binary(_, ref payload)) = doc.get("payload") {
                 let payload_str = match String::from_utf8(payload.to_owned()) {
