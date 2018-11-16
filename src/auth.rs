@@ -49,10 +49,12 @@ impl Authenticator {
     pub fn auth(self, user: &str, password: &str) -> Result<()> {
         println!("Got to load data");
         let initial_data = self.start(user)?;
+        println!("Got init data");
         let conversation_id = initial_data.conversation_id.clone();
         let full_password = format!("{}:mongo:{}", user, password);
+        println!("got full pasword, {}", full_password);
         let auth_data = self.next(full_password, initial_data)?;
-
+        println!("Near to finish");
         self.finish(conversation_id, auth_data)
     }
 
