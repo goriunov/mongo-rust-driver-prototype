@@ -63,6 +63,8 @@ impl Authenticator {
             Ok(text_nonce) => text_nonce,
             Err(string) => return Err(DefaultError(string)),
         };
+        
+        println!("{}", text_nonce);
 
         let nonce = format!("{}", text_nonce);
         let message = format!("n={},r={}", user, nonce);
@@ -75,19 +77,24 @@ impl Authenticator {
             "payload": binary,
             "mechanism": "SCRAM-SHA-1"
         };
-
+        
+        println!("Near the db doc");
         let doc = self.db.command(start_doc, Suppressed, None)?;
-
+        
+        println!("Got data");
         let data = match doc.get("payload") {
             Some(&Binary(_, ref payload)) => payload.to_owned(),
             _ => return Err(ResponseError(String::from("Invalid payload returned"))),
         };
-
+        
+        
+        println("GOt id");
         let id = match doc.get("conversationId") {
             Some(bson) => bson.clone(),
             None => return Err(ResponseError(String::from("No conversationId returned"))),
         };
-
+        
+        println("Getting response");
         let response = match String::from_utf8(data) {
             Ok(string) => string,
             Err(_) => {
