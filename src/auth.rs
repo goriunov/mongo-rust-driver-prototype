@@ -47,6 +47,7 @@ impl Authenticator {
 
     /// Authenticates a user-password pair against a database.
     pub fn auth(self, user: &str, password: &str) -> Result<()> {
+        println!("Got to load data");
         let initial_data = self.start(user)?;
         let conversation_id = initial_data.conversation_id.clone();
         let full_password = format!("{}:mongo:{}", user, password);
